@@ -12,7 +12,7 @@ exports.config = {
       url: 'https://testrial.com/',
       browser: "chrome",
       screenSize: "maximize",
-      host: "yourOrgIdHere.gateway.testrial.com",
+      host: "64192070-94f8-11ea-b8ab-312339836454.gateway.testrial.com",
       waitForTimeout: 10000,
       desiredCapabilities: {
         "testrial:options": {
