@@ -1,18 +1,18 @@
-const { setHeadlessWhen } = require('@codeceptjs/configure');
+const { getEnvFilePath } = require('./util');
 
-// turn on headless mode when running with HEADLESS=true environment variable
-// HEADLESS=true npx codecept run
-setHeadlessWhen(process.env.HEADLESS);
+require('dotenv').config({
+  path: getEnvFilePath()
+});
 
 exports.config = {
   tests: './*.test.js',
   output: './output',
   helpers: {
     WebDriver: {
-      url: 'https://testrial.com/',
+      url: process.env.BASE_URL,
       browser: "chrome",
       screenSize: "maximize",
-      host: "64192070-94f8-11ea-b8ab-312339836454.gateway.testrial.com",
+      host: "64192070-94f8-11ea-b8ab-312339836454.gateway.browserbase.io",
       waitForTimeout: 10000,
       desiredCapabilities: {
         "testrial:options": {
@@ -25,7 +25,24 @@ exports.config = {
     I: './steps_file.js'
   },
   bootstrap: null,
-  mocha: {},
+  mocha: {
+    reporterOptions: {
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          verbose: false,
+          steps: true
+        }
+      },
+      'mocha-junit-reporter': {
+        stdout: './output/console.log',
+        options: {
+          mochaFile: './output/result.xml'
+        },
+        attachments: true
+      }
+    }
+  },
   name: 'test-testrial',
   plugins: {
     retryFailedStep: {
